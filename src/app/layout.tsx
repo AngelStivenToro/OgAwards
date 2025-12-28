@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "OG Awards",
-  description: "Votaciones OG AWARDS",
+  description: "votaciones OG Awards",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
         />
         <link rel="shortcut icon" href="/images/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#c09d00" />
+        <meta name="theme-color" content="#c00000ff" />
       </head>
       <body className={`${inter.className} font-sans antialiased`}>
         <Providers>{children}</Providers>
