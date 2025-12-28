@@ -6,48 +6,8 @@ export class VotingSystem {
   private static readonly VOTES_KEY = 'ogawards_votes';
 
   static initializeAwards(): void {
-    const existingAwards = this.getAwards();
-    if (existingAwards.length === 0) {
-      const defaultAwards: Award[] = [
-        {
-          id: 'award-1',
-          title: 'Mejor Juego del Año',
-          category: 'Juegos',
-          description: 'El juego más destacado y completo del año',
-          nominees: [
-            { id: 'nom-1-1', name: 'The Legend of Zelda: Tears of the Kingdom', description: 'Aventura épica en Hyrule' },
-            { id: 'nom-1-2', name: 'Baldur\'s Gate 3', description: 'RPG de fantasía revolucionario' },
-            { id: 'nom-1-3', name: 'Marvel\'s Spider-Man 2', description: 'Aventura de superhéroes' },
-            { id: 'nom-1-4', name: 'Starfield', description: 'Exploración espacial de Bethesda' }
-          ]
-        },
-        {
-          id: 'award-2',
-          title: 'Mejor Desarrollo Independiente',
-          category: 'Indie',
-          description: 'El mejor juego desarrollado por un estudio independiente',
-          nominees: [
-            { id: 'nom-2-1', name: 'Hades II', description: 'Roguelike mitológico' },
-            { id: 'nom-2-2', name: 'Pizza Tower', description: 'Plataformas 2D caótico' },
-            { id: 'nom-2-3', name: 'Dredge', description: 'Aventura de pesca misteriosa' },
-            { id: 'nom-2-4', name: 'Sea of Stars', description: 'RPG retro inspirado en clásicos' }
-          ]
-        },
-        {
-          id: 'award-3',
-          title: 'Mejor Artista Visual',
-          category: 'Arte',
-          description: 'Reconocimiento al mejor trabajo artístico y visual',
-          nominees: [
-            { id: 'nom-3-1', name: 'Alan Wake 2', description: 'Fotorealismo y terror psicológico' },
-            { id: 'nom-3-2', name: 'Hi-Fi Rush', description: 'Estilo visual único y colorido' },
-            { id: 'nom-3-3', name: 'Diablo IV', description: 'Dark fantasy detallado' },
-            { id: 'nom-3-4', name: 'Final Fantasy XVI', description: 'Fantasy épico con gráficos impresionantes' }
-          ]
-        }
-      ];
-      this.saveAwards(defaultAwards);
-    }
+    // Los datos vienen de la base de datos, no se inicializan estáticamente
+    return;
   }
 
   static getAwards(): Award[] {

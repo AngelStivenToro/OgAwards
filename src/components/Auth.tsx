@@ -91,7 +91,7 @@ export default function Auth({ onAuthSuccess }: AuthProps) {
             )}
             
             {error && (
-              <div className="text-red-500 text-sm text-center">
+              <div className="text-danger text-sm text-center">
                 {error}
               </div>
             )}

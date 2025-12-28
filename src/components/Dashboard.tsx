@@ -9,12 +9,14 @@ import VotingCard from "./VotingCard";
 import Results from "./Results";
 import SkeletonCard from "./SkeletonCard";
 import AnimatedText from "./ui/AnimateText";
+import WelcomeModal, { useWelcomeModal } from "./WelcomeModal";
 
 export default function Dashboard() {
   const [awards, setAwards] = useState<Award[]>([]);
   const [activeTab, setActiveTab] = useState("voting");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { isOpen: isWelcomeOpen, handleClose: closeWelcomeModal } = useWelcomeModal();
 
   useEffect(() => {
     // Inicializar premios si no existen
@@ -162,6 +164,8 @@ export default function Dashboard() {
           </Tab>
         </Tabs>
       </div>
+      
+      <WelcomeModal isOpen={isWelcomeOpen} onClose={closeWelcomeModal} />
     </div>
   );
 }

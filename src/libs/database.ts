@@ -90,7 +90,13 @@ export class DatabaseService {
           id: nominee.id,
           name: nominee.name,
           description: nominee.description,
-          image: nominee.image
+          image: nominee.image,
+          media: nominee.media_type ? {
+            type: nominee.media_type,
+            ...(nominee.media_url && { url: nominee.media_url }),
+            ...(nominee.media_content && { content: nominee.media_content }),
+            ...(nominee.media_title && { title: nominee.media_title })
+          } : undefined
         }))
       }));
     } catch {
@@ -99,70 +105,8 @@ export class DatabaseService {
   }
 
   static async initializeAwards(): Promise<void> {
-    this.checkSupabase();
-    const client = supabase!;
-    const existingAwards = await this.getAwards();
-    if (existingAwards.length > 0) return;
-
-    const defaultAwards = [
-      {
-        title: 'Mejor Juego del Año',
-        category: 'Juegos',
-        description: 'El juego más destacado y completo del año',
-        nominees: [
-          { name: 'The Legend of Zelda: Tears of the Kingdom', description: 'Aventura épica en Hyrule' },
-          { name: 'Baldur\'s Gate 3', description: 'RPG de fantasía revolucionario' },
-          { name: 'Marvel\'s Spider-Man 2', description: 'Aventura de superhéroes' },
-          { name: 'Starfield', description: 'Exploración espacial de Bethesda' }
-        ]
-      },
-      {
-        title: 'Mejor Desarrollo Independiente',
-        category: 'Indie',
-        description: 'El mejor juego desarrollado por un estudio independiente',
-        nominees: [
-          { name: 'Hades II', description: 'Roguelike mitológico' },
-          { name: 'Pizza Tower', description: 'Plataformas 2D caótico' },
-          { name: 'Dredge', description: 'Aventura de pesca misteriosa' },
-          { name: 'Sea of Stars', description: 'RPG retro inspirado en clásicos' }
-        ]
-      },
-      {
-        title: 'Mejor Artista Visual',
-        category: 'Arte',
-        description: 'Reconocimiento al mejor trabajo artístico y visual',
-        nominees: [
-          { name: 'Alan Wake 2', description: 'Fotorealismo y terror psicológico' },
-          { name: 'Hi-Fi Rush', description: 'Estilo visual único y colorido' },
-          { name: 'Diablo IV', description: 'Dark fantasy detallado' },
-          { name: 'Final Fantasy XVI', description: 'Fantasy épico con gráficos impresionantes' }
-        ]
-      }
-    ];
-
-    for (const award of defaultAwards) {
-      const { data: awardData } = await client
-        .from('awards')
-        .insert([{
-          title: award.title,
-          category: award.category,
-          description: award.description
-        }])
-        .select()
-        .single();
-
-      if (awardData) {
-        const nomineesData = award.nominees.map(nominee => ({
-          award_id: awardData.id,
-          name: nominee.name,
-          description: nominee.description
-        }));
-
-        await client
-          .from('nominees')
-          .insert(nomineesData);
-      }
-    }
+    // Ya no inicializa datos estáticos, usa los datos existentes en la DB
+    return;
   }
 
   // Votos

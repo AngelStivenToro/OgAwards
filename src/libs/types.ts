@@ -19,6 +19,12 @@ export interface Nominee {
   name: string;
   description: string;
   image?: string;
+  media?: {
+    type: "image" | "video" | "audio" | "text";
+    url?: string;
+    content?: string;
+    title?: string;
+  };
 }
 
 export interface Vote {

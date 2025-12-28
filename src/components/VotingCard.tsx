@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import { motion } from "framer-motion";
 import Icon from "./ui/Icon";
+import NomineeMedia, { NomineeMediaButton } from "./NomineeMedia";
 
 interface VotingCardProps {
   award: Award;
@@ -20,6 +21,8 @@ export default function VotingCard({ award, onVoteSuccess }: VotingCardProps) {
   const [error, setError] = useState("");
   const [hasVotedForAward, setHasVotedForAward] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedNominee, setSelectedNominee] = useState<any>(null);
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
 
   useEffect(() => {
     const checkIfVoted = async () => {
@@ -55,6 +58,16 @@ export default function VotingCard({ award, onVoteSuccess }: VotingCardProps) {
     }
   };
 
+  const handleMediaClick = (nominee: any) => {
+    setSelectedNominee(nominee);
+    setIsMediaModalOpen(true);
+  };
+
+  const handleCloseMediaModal = () => {
+    setIsMediaModalOpen(false);
+    setSelectedNominee(null);
+  };
+
   const handleSubmit = async () => {
     if (rankings.length === 0) {
       setError("Debes seleccionar al menos una opción");
@@ -87,7 +100,6 @@ export default function VotingCard({ award, onVoteSuccess }: VotingCardProps) {
   };
 
   const currentUser = AuthDB.getCurrentUser();
-  const hasVotedForThisAward = currentUser?.hasVoted;
 
   if (isLoading) {
     return (
@@ -155,17 +167,25 @@ export default function VotingCard({ award, onVoteSuccess }: VotingCardProps) {
                         {nominee.description}
                       </p>
                     </div>
-                    {rank !== null && (
-                      <div className="ml-4">
-                        <Chip
-                          color="primary"
-                          variant="solid"
-                          className="min-w-8 text-center font-bold"
-                        >
-                          #{rank}
-                        </Chip>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {nominee.media && (
+                        <NomineeMediaButton
+                          media={nominee.media} 
+                          onClick={() => handleMediaClick(nominee)}
+                        />
+                      )}
+                      {rank !== null && (
+                        <div className="ml-4">
+                          <Chip
+                            color="primary"
+                            variant="solid"
+                            className="min-w-8 text-center font-bold"
+                          >
+                            #{rank}
+                          </Chip>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -217,6 +237,14 @@ export default function VotingCard({ award, onVoteSuccess }: VotingCardProps) {
           )}
         </CardBody>
       </Card>
+      
+      {selectedNominee && (
+        <NomineeMedia 
+          nominee={selectedNominee}
+          isOpen={isMediaModalOpen}
+          onClose={handleCloseMediaModal}
+        />
+      )}
     </motion.div>
   );
 }
